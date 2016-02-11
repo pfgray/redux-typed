@@ -11,7 +11,7 @@
     "node_modules"
   ],
   "files":[
-    "./typings/browser.d.ts",
-    "./src/test.ts"
+    "./src/redux.d.ts",
+    "./src/driver.ts"
   ]
 }

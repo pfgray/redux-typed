@@ -13,7 +13,6 @@ interface MyAppState {
 //marker interface for actions
 type MyAppAction = FetchUsersAction | ReceiveUsersAction;
 
-
 //Action Type which denotes an ajax call being kicked off
 class FetchUsersAction {
   thing: boolean;
@@ -49,42 +48,4 @@ console.log(store.getState());
 store.dispatch(new FetchUsersAction());
 console.log(store.getState());
 
-
-
-interface Person {
-  name: string
-}
-
-//fails
-const nobody: Person = {};
-
-//fails
-const paul: Person = {
-  name: "Paul"
-};
-
-//error, unknown attr
-const nicole: Person = {
-  name: "Nicole",
-  anotherAttr: "test"
-};
-
-//error, missing attr
-const nobody2: Person = Object.assign({}, {});
-
-//succeeds
-const paul2: Person = Object.assign({}, {
-  name: "Paul"
-});
-
-//error, missing attr
-const nicole2: Person = Object.assign({}, {
-  name: "Nicole",
-  anotherAttr: "test"
-});
-
-
-
-
-
-//redux.dispatch(new FetchUsersAction())
+store.dispatch(new FetchUsersAction());
