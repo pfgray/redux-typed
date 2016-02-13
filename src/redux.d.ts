@@ -7,20 +7,24 @@
 
 declare module Redux {
 
+    abstract class Action {
+      type: string
+    }
+
     interface ActionCreator extends Function {
         (...args: any[]): any;
     }
 
-    interface Reducer<State, Action> extends Function {
-        (state: State, action: Action): State;
+    interface Reducer<State, T extends Action> extends Function {
+        (state: State, action: T): State;
     }
 
-    interface Dispatch<Action> extends Function {
-        (action: Action): any;
+    interface Dispatch<T extends Action> extends Function {
+        (action: T): any;
     }
 
-    interface StoreMethods<State, Action> {
-        dispatch: Dispatch<Action>;
+    interface StoreMethods<State, T extends Action> {
+        dispatch: Dispatch<T>;
         getState(): State;
     }
 
@@ -34,7 +38,7 @@ declare module Redux {
         (obj: MiddlewareArg): Function;
     }
 
-    class Store<State, Action> {
+    class Store<State> {
         getReducer(): Reducer<State, Action>;
         replaceReducer(nextReducer: Reducer<State, Action>): void;
         //todo: what does 'dispatch' return?
@@ -43,7 +47,11 @@ declare module Redux {
         subscribe(listener: Function): Function;
     }
 
-    function createStore<State, S>(reducer: Reducer<State, S>, initialState?: State, enhancer?: ()=>any): Store<State, S>;
+    function createStore<State, T extends Action>(
+      reducer: Reducer<State, T>,
+      initialState?: State,
+      enhancer?: ()=>any
+    ): Store<State>;
 
     //todo: hmmm
     //function bindActionCreators<T>(actionCreators: T, dispatch: Dispatch): T;

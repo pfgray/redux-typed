@@ -1,4 +1,6 @@
-import * as redux from 'redux';
+'use strict';
+
+import {createStore, Action} from 'redux';
 
 interface User {
   first: string;
@@ -19,27 +21,40 @@ interface LoginState {
   checkingAuth: boolean;
 }
 
-//Action Type which denotes an ajax call being kicked off
-class FetchUsersAction {
-  thing: boolean;
+interface ActionClass<T extends Action> {
+  prototype: T;
 }
 
-//Action Type which denotes the user ajax call being returned
-class ReceiveUsersAction {
+function typeName(name: string) {
+  return function<T extends Action>(actionClass: ActionClass<T>) {
+    actionClass.prototype.type = name;
+  }
+}
+
+function isType<T extends Action>(action: Action, actionClass: ActionClass<T>): action is T {
+  return action.type == actionClass.prototype.type;
+}
+
+@typeName("FetchUsersAction")
+class FetchUsersAction extends Action {}
+
+@typeName("ReceiveUsersAction")
+class ReceiveUsersAction extends Action {
   users: User[]
 }
 
-const loginReducer = (state: LoginState, action: )
+const loginReducer = (state: LoginState, action: Action): LoginState => {
+  return state;
+}
 
 const rootReducer = (state: MyAppState, action: Action): MyAppState => {
-  if(action instanceof FetchUsersAction){
+  if(isType(action, FetchUsersAction)){
     return Object.assign({}, state, {
-      loading: true,
-      hmm:true
+      appLoading: true
     });
-  } else if(action instanceof ReceiveUsersAction){
+  } else if(isType(action, ReceiveUsersAction)){
     Object.assign({}, state, {
-      loading: true,
+      appLoading: false,
       users: action.users
     });
   }
@@ -57,10 +72,10 @@ const initialState: MyAppState = {
   }
 };
 
-const store = redux.createStore(rootReducer, initialState);
+const store = createStore(rootReducer, initialState);
 
 console.log(store.getState());
-store.dispatch(new FetchUsersAction());
+store.dispatch({} as FetchUsersAction);
 console.log(store.getState());
 
-store.dispatch(new FetchUsersAction());
+//store.dispatch(new FetchUsersAction());
