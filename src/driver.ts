@@ -7,11 +7,17 @@ interface User {
 
 interface MyAppState {
   appLoading: boolean;
-  users?: User[]
+  users?: User[],
+  login: LoginState
 }
 
-//marker interface for actions
-type MyAppAction = FetchUsersAction | ReceiveUsersAction;
+interface LoginState {
+  form: {
+    username: string;
+    password: string;
+  };
+  checkingAuth: boolean;
+}
 
 //Action Type which denotes an ajax call being kicked off
 class FetchUsersAction {
@@ -23,7 +29,9 @@ class ReceiveUsersAction {
   users: User[]
 }
 
-const rootReducer = (state: MyAppState, action: MyAppAction): MyAppState => {
+const loginReducer = (state: LoginState, action: )
+
+const rootReducer = (state: MyAppState, action: Action): MyAppState => {
   if(action instanceof FetchUsersAction){
     return Object.assign({}, state, {
       loading: true,
@@ -39,7 +47,14 @@ const rootReducer = (state: MyAppState, action: MyAppAction): MyAppState => {
 }
 
 const initialState: MyAppState = {
-  appLoading: false
+  appLoading: false,
+  login: {
+    form: {
+      username: '',
+      password: ''
+    },
+    checkingAuth: false
+  }
 };
 
 const store = redux.createStore(rootReducer, initialState);
