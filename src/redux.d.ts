@@ -11,6 +11,10 @@ declare module Redux {
       type: string
     }
 
+    interface ActionClass<T extends Action> {
+      prototype: T;
+    }
+
     interface ActionCreator extends Function {
         (...args: any[]): any;
     }
@@ -44,7 +48,7 @@ declare module Redux {
         //todo: what does 'dispatch' return?
         dispatch(action: Action): State;
         getState(): any;
-        subscribe(listener: Function): Function;
+        subscribe(cb: (state: State) => void): void;
     }
 
     function createStore<State, T extends Action>(
