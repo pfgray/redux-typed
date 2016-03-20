@@ -1,6 +1,5 @@
-'use strict';
-
-import {createStore, Action} from 'redux';
+import { createStore, Action } from 'redux';
+import { typeName, isType, ActionImpl } from './helpers.ts';
 
 interface User {
   first: string;
@@ -21,25 +20,11 @@ interface LoginState {
   checkingAuth: boolean;
 }
 
-interface ActionClass<T extends Action> {
-  prototype: T;
-}
-
-function typeName(name: string) {
-  return function<T extends Action>(actionClass: ActionClass<T>) {
-    actionClass.prototype.type = name;
-  }
-}
-
-function isType<T extends Action>(action: Action, actionClass: ActionClass<T>): action is T {
-  return action.type == actionClass.prototype.type;
-}
-
 @typeName("FetchUsersAction")
-class FetchUsersAction extends Action {}
+class FetchUsersAction extends ActionImpl {}
 
 @typeName("ReceiveUsersAction")
-class ReceiveUsersAction extends Action {
+class ReceiveUsersAction extends ActionImpl {
   users: User[]
 }
 
@@ -53,6 +38,7 @@ const rootReducer = (state: MyAppState, action: Action): MyAppState => {
       appLoading: true
     });
   } else if(isType(action, ReceiveUsersAction)){
+    action.users;
     Object.assign({}, state, {
       appLoading: false,
       users: action.users
@@ -74,8 +60,8 @@ const initialState: MyAppState = {
 
 const store = createStore(rootReducer, initialState);
 
-console.log(store.getState());
-store.dispatch({} as FetchUsersAction);
-console.log(store.getState());
+store.subscribe(thing => {
+  console.log('got thing:', thing);
+});
 
-//store.dispatch(new FetchUsersAction());
+store.dispatch(new FetchUsersAction());

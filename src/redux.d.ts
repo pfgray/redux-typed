@@ -7,8 +7,12 @@
 
 declare module Redux {
 
-    abstract class Action {
+    interface Action {
       type: string
+    }
+
+    interface ActionClass<T extends Action> {
+      prototype: T;
     }
 
     interface ActionCreator extends Function {
@@ -38,13 +42,13 @@ declare module Redux {
         (obj: MiddlewareArg): Function;
     }
 
-    class Store<State> {
+    interface Store<State> {
         getReducer(): Reducer<State, Action>;
         replaceReducer(nextReducer: Reducer<State, Action>): void;
         //todo: what does 'dispatch' return?
         dispatch(action: Action): State;
         getState(): any;
-        subscribe(listener: Function): Function;
+        subscribe(cb: (state: State) => void): void;
     }
 
     function createStore<State, T extends Action>(
