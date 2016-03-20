@@ -1,5 +1,9 @@
 import { ActionClass, Action } from 'redux';
 
+export abstract class ActionImpl implements Action {
+  type: string
+}
+
 export function typeName(name: string) {
   return function<T extends Action>(actionClass: ActionClass<T>) {
     actionClass.prototype.type = name;

@@ -18,5 +18,13 @@
   "devDependencies": {
     "babel-preset-es2015": "^6.5.0",
     "redux": "^3.3.1"
+  },
+  "jest":{
+    "scriptPreprocessor":"./preprocessor.js",
+    "testFileExtensions": ["ts", "tsx", "js"],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/redux"
+    ]
   }
 }

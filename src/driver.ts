@@ -1,5 +1,5 @@
 import { createStore, Action } from 'redux';
-import { typeName, isType } from './helpers.ts';
+import { typeName, isType, ActionImpl } from './helpers.ts';
 
 interface User {
   first: string;
@@ -20,12 +20,11 @@ interface LoginState {
   checkingAuth: boolean;
 }
 
-
 @typeName("FetchUsersAction")
-class FetchUsersAction extends Action {}
+class FetchUsersAction extends ActionImpl {}
 
 @typeName("ReceiveUsersAction")
-class ReceiveUsersAction extends Action {
+class ReceiveUsersAction extends ActionImpl {
   users: User[]
 }
 

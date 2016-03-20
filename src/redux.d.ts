@@ -7,7 +7,7 @@
 
 declare module Redux {
 
-    abstract class Action {
+    interface Action {
       type: string
     }
 
@@ -42,7 +42,7 @@ declare module Redux {
         (obj: MiddlewareArg): Function;
     }
 
-    class Store<State> {
+    interface Store<State> {
         getReducer(): Reducer<State, Action>;
         replaceReducer(nextReducer: Reducer<State, Action>): void;
         //todo: what does 'dispatch' return?
