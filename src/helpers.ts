@@ -1,15 +1,27 @@
-import { ActionClass, Action } from 'redux';
+import { Action, Dispatch } from 'redux';
 
-export abstract class ActionImpl implements Action {
-  type: string
+type MapStateToProps<State, Props> = (state: State) => Props;
+
+type MapDispatchToProps<Props> = (dispatch: Dispatch<any>) => Props;
+
+type ReactFunctionalComponent<Props> = (p:Props) => any; //todo: must return jsx, but how?
+
+// type Connect<RootState, StateProps, DispatchProps> = (
+//     stateMapper: MapStateToProps<RootState, StateProps>,
+//     dispatchMapper: MapDispatchToProps<DispatchProps>
+// ) => ReactFunctionalComponent<StateProps & DispatchProps>;
+
+export function connector<RootState, StateProps, DispatchProps>(
+    stateMapper: MapStateToProps<RootState, StateProps>,
+    dispatchMapper: MapDispatchToProps<DispatchProps>
+): (thing: StateProps & DispatchProps) => any {
+  throw "lol"
 }
 
-export function typeName(name: string) {
-  return function<T extends Action>(actionClass: ActionClass<T>) {
-    actionClass.prototype.type = name;
-  }
-}
-
-export function isType<T extends Action>(action: Action, actionClass: ActionClass<T>): action is T {
-  return action.type == actionClass.prototype.type;
+export function connector2<RootState, StateProps, DispatchProps>(
+    stateMapper: MapStateToProps<RootState, StateProps>,
+    dispatchMapper: MapDispatchToProps<DispatchProps>,
+    functionalComponent: (props: StateProps & DispatchProps) => any
+): void {
+  throw "lol"
 }

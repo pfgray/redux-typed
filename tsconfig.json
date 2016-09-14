@@ -7,11 +7,9 @@
   },
   "compileOnSave": false,
   "buildOnSave": false,
-  "exclude": [
-    "node_modules"
-  ],
   "files":[
-    "./src/redux.d.ts",
-    "./src/driver.ts"
+    //"./typings/browser.d.ts",
+    "./src/driver.tsx",
+    "./src/helpers.ts"
   ]
 }

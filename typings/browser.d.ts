@@ -1,1 +1,1 @@
-/// <reference path="browser/ambient/redux/redux.d.ts" />
+/// <reference path="browser/definitions/react/react.d.ts" />
